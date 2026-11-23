@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nonogram-lab"
+version = "0.1.0"
+description = "Generate nonograms with exactly one solution, grade them by search effort, and play them in a self-contained page."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "nonogram-lab contributors" }]
+keywords = ["nonogram", "picross", "puzzle-generator", "constraint-solver", "game"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: TypeScript",
+  "Topic :: Games/Entertainment :: Puzzle Games",
+]
+dependencies = []
+
+[project.scripts]
+nonogram = "nonogram.cli:main"
+
+[project.optional-dependencies]
+dev = ["ruff>=0.6", "mypy>=1.10"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nonogram"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+# The player is one long HTML template; wrapping its CSS would make it harder to read.
+"src/nonogram/web.py" = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src"]
